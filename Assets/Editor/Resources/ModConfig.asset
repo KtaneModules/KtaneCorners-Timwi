@@ -14,7 +14,8 @@ MonoBehaviour:
   id: Corners
   title: Corners
   author: Timwi
-  description: '<description>
+  description: 'Press the corners of the module in the correct order. The correct
+    solution is right around the corner!
 
 
     Module created by Timwi.

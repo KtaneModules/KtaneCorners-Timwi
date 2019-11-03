@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using KModkit;
 using UnityEngine;
 using Rnd = UnityEngine.Random;
@@ -18,8 +19,11 @@ public class CornersModule : MonoBehaviour
     public MeshRenderer[] Clamps;
     public KMSelectable[] Corners;
     public KMRuleSeedable RuleSeedable;
+    public KMColorblindMode ColorblindMode;
+
     public MeshRenderer[] Leds;
     public MeshRenderer[] LedGlows;
+    public TextMesh[] Colorblind;
 
     public Texture LedGlowRed;
     public Texture LedGlowGreen;
@@ -39,6 +43,7 @@ public class CornersModule : MonoBehaviour
     private readonly int[] _entered = new int[4];
     private int _progress;
     private bool _moduleSolved;
+    private bool _colorblind;
 
     private static string[] _cornerNames = new[] { "TL", "TR", "BR", "BL" };
 
@@ -61,6 +66,7 @@ public class CornersModule : MonoBehaviour
     void Start()
     {
         _moduleId = _moduleIdCounter++;
+        _colorblind = ColorblindMode.ColorblindModeActive;
 
         // RULE SEED
         var rnd = RuleSeedable.GetRNG();
@@ -187,6 +193,8 @@ public class CornersModule : MonoBehaviour
             _clampColors[combinations[i] % 4] = combinations[i] / 4;    // for Souvenir
             Debug.LogFormat(@"[Corners #{0}] {1} corner is {2}.", _moduleId, _cornerNames[combinations[i] % 4], new[] { "Red", "Green", "Blue", "Yellow" }[combinations[i] / 4]);
             Corners[i].OnInteract += CornerClickHandler(i);
+            Colorblind[combinations[i] % 4].text = "RGBY"[combinations[i] / 4].ToString();
+            Colorblind[combinations[i] % 4].gameObject.SetActive(_colorblind);
         }
 
         Debug.LogFormat(@"[Corners #{0}] Solution is: {1}", _moduleId, _solution.Select(c => _cornerNames[c]).Join(", "));
@@ -259,6 +267,8 @@ public class CornersModule : MonoBehaviour
                     LedGlows[j].material.mainTexture = LedGlowGreen;
                     LedGlows[j].gameObject.SetActive(true);
                     Clamps[j].material.color = Color.white;
+                    Colorblind[i].gameObject.SetActive(false);
+                    Colorblind[j].text = "";
                 }
                 Module.HandlePass();
                 Debug.LogFormat(@"[Corners #{0}] Module solved.", _moduleId);
@@ -278,6 +288,9 @@ public class CornersModule : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
+        if (_moduleSolved)
+            yield break;
+
         for (var i = 0; i < 4; i++)
         {
             var pressed = _entered.Take(_progress).Contains(i);
@@ -285,5 +298,43 @@ public class CornersModule : MonoBehaviour
             LedGlows[i].material.mainTexture = LedGlowYellow;
             LedGlows[i].gameObject.SetActive(pressed);
         }
+    }
+
+#pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"!{0} press TL [press the top-left corner] | chaining possible | !{0} colorblind";
+#pragma warning restore 414
+
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        if (Regex.IsMatch(command, @"^\s*colorblind\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            for (var i = 0; i < 4; i++)
+            {
+                _colorblind = true;
+                Colorblind[i].gameObject.SetActive(true);
+            }
+            yield return null;
+            yield break;
+        }
+
+        var m = Regex.Match(command, @"^\s*(?:(?:press|submit|enter|touch)\s+)?((?:(?:TL|TR|BL|BR)[- ,;]*)+)\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        if (!m.Success)
+            yield break;
+
+        var strs = m.Groups[1].Value.Split(new[] { '-', ' ', ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+        var btns = new List<KMSelectable>();
+        foreach (var str in strs)
+        {
+            switch (str.ToLowerInvariant())
+            {
+                case "tl": btns.Add(Corners[0]); break;
+                case "tr": btns.Add(Corners[1]); break;
+                case "br": btns.Add(Corners[2]); break;
+                case "bl": btns.Add(Corners[3]); break;
+                default: yield break;
+            }
+        }
+        yield return null;
+        yield return btns;
     }
 }
