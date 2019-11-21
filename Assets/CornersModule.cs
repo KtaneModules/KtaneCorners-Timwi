@@ -158,7 +158,7 @@ public class CornersModule : MonoBehaviour
             availableCombs.RemoveAll(cmb => cmb % 4 == comb % 4);
         }
 
-        // We now know which corner is the first to the click and which square this corresponds to in the diagram.
+        // We now know which corner is the first to click and which square this corresponds to in the diagram.
         // Test all permutations of the remaining three and calculate their path lengths.
         var remainingSquares = done.Where(sq => combinations.Skip(1).Contains(sq.CornerColor)).ToList();
         var shortestLength = int.MaxValue;
