@@ -308,11 +308,9 @@ public class CornersModule : MonoBehaviour
     {
         if (Regex.IsMatch(command, @"^\s*colorblind\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
         {
+            _colorblind = true;
             for (var i = 0; i < 4; i++)
-            {
-                _colorblind = true;
                 Colorblind[i].gameObject.SetActive(true);
-            }
             yield return null;
             yield break;
         }
@@ -336,5 +334,20 @@ public class CornersModule : MonoBehaviour
         }
         yield return null;
         yield return btns;
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        while (!_moduleSolved)
+        {
+            if (!_entered.Take(_progress).SequenceEqual(_solution.Take(_progress)))
+            {
+                // We’re in a state where a strike is unavoidable.
+                yield break;
+            }
+
+            Corners[_solution[_progress]].OnInteract();
+            yield return new WaitForSeconds(.1f);
+        }
     }
 }

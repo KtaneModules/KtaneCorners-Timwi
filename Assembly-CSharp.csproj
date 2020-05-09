@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\CornersModule.cs" />
+     <Compile Include="Assets\KMScripts\Easing.cs" />
      <Compile Include="Assets\KMScripts\GeneralExtensions.cs" />
      <Compile Include="Assets\KMScripts\KMBombInfoExtensions.cs" />
      <Compile Include="Assets\KMScripts\KMBossModule.cs" />
