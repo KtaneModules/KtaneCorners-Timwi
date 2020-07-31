@@ -45,7 +45,7 @@ public class CornersModule : MonoBehaviour
     private bool _moduleSolved;
     private bool _colorblind;
 
-    private static string[] _cornerNames = new[] { "TL", "TR", "BR", "BL" };
+    private static readonly string[] _cornerNames = new[] { "TL", "TR", "BR", "BL" };
 
     sealed class SquareInfo
     {
