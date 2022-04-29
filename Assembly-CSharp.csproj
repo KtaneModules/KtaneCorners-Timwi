@@ -53,6 +53,7 @@
   <ItemGroup>
      <Compile Include="Assets\CornersModule.cs" />
      <Compile Include="Assets\KMScripts\Easing.cs" />
+     <Compile Include="Assets\KMScripts\GameFixes.cs" />
      <Compile Include="Assets\KMScripts\GeneralExtensions.cs" />
      <Compile Include="Assets\KMScripts\KMBombInfoExtensions.cs" />
      <Compile Include="Assets\KMScripts\KMBossModule.cs" />
@@ -60,6 +61,7 @@
      <Compile Include="Assets\KMScripts\KMRuleSeedable.cs" />
      <Compile Include="Assets\KMScripts\PrivateWhenPlayingAttribute.cs" />
      <Compile Include="Assets\KMScripts\ReadOnlyWhenPlayingAttribute.cs" />
+     <Compile Include="Assets\KMScripts\ReflectionHelper.cs" />
      <Compile Include="Assets\TestHarness\EdgeworkConfiguration.cs" />
      <Compile Include="Assets\TestHarness\NeedyTimer.cs" />
      <Compile Include="Assets\TestHarness\SevenSegDisplay.cs" />

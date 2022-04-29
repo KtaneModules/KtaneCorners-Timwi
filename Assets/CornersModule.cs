@@ -308,7 +308,7 @@ public class CornersModule : MonoBehaviour
     {
         if (Regex.IsMatch(command, @"^\s*colorblind\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
         {
-            _colorblind = true;
+            _colorblind = !_colorblind;
             for (var i = 0; i < 4; i++)
                 Colorblind[i].gameObject.SetActive(true);
             yield return null;

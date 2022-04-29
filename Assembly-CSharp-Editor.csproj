@@ -52,6 +52,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\Scripts\AssetBundler.cs" />
+     <Compile Include="Assets\Editor\Scripts\CommunityFeatures\CommunityFeatureDownloadHandlers.cs" />
+     <Compile Include="Assets\Editor\Scripts\CommunityFeatures\CommunityFeaturesDownloader.cs" />
+     <Compile Include="Assets\Editor\Scripts\CommunityFeatures\CommunityFeaturesSerializationTypes.cs" />
+     <Compile Include="Assets\Editor\Scripts\CommunityFeatures\CommunityFeatureVendorHandlers.cs" />
      <Compile Include="Assets\Editor\Scripts\EdgeworkConfigurationEditor.cs" />
      <Compile Include="Assets\Editor\Scripts\KMModuleEditor.cs" />
      <Compile Include="Assets\Editor\Scripts\Missions\KMMissionEditor.cs" />
@@ -338,6 +342,9 @@
  <Reference Include="UnityEditor.Graphs">
  <HintPath>D:/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.WebGL.Extensions">
+ <HintPath>D:/Unity/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.WindowsStandalone.Extensions">
  <HintPath>D:/Unity/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
@@ -364,6 +371,9 @@
  </Reference>
  <Reference Include="UnityEngine.StandardEvents">
  <HintPath>C:/Users/Timwi/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
+ </Reference>
+ <Reference Include="DotNetZip">
+ <HintPath>D:/c/KTANE/Corners/Assets/Editor/Plugins/Managed/DotNetZip.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
